@@ -1,3 +1,6 @@
 export const GET_ALL_MARKERS = 'GET_ALL_MARKERS';
 export const SET_ALL_MARKERS = 'SET_ALL_MARKERS';
+export const GET_LOCATION_NAME = 'GET_LOCATION_NAME';
+export const DELETE_MARKER = 'DELETE_MARKER';
+export const EDIT_MARKER = 'EDIT_MARKER';
 export const ADD_MARKER = 'ADD_MARKER';

@@ -1,57 +1,28 @@
 import React, { Component } from 'react';
 import { StyleSheet, View, Text, FlatList } from 'react-native';
-import ListItem from '../components/ListItem';
 import { connect } from 'react-redux';
-import { getAllMarkers } from '../actions/MapView';
+
+import {
+  getAllMarkers,
+  addMarker,
+  deleteMarker,
+  editMarker
+} from '../actions/MapView';
+import MapViewComponent from '../components/mapView';
 
 class App extends Component {
-  state = {
-  }
-
-  componentDidMount() {
-    this.props.getMarkers();
-  }
-
-  placesOutput = () => {
-    return (
-      <FlatList
-        horizontal={true}
-        data = { this.props.markers }
-        keyExtractor={(item, index) => index.toString()}
-        renderItem = { info => (
-          <ListItem
-            placeName={ info }
-          />
-        )}
-      />
-    )
-  }
-
 render() {
   return (
-    <View style={ styles.container }>
-      <View style = { styles.inputContainer }>
-        <Text>Map View will come here</Text>
-      </View>
-        { this.placesOutput() }
-    </View>
-    );
+    <MapViewComponent
+      markers={this.props.markers}
+      getMarkers={this.props.getMarkers}
+      addMarker={this.props.addMarker}
+      deleteMarker={this.props.deleteMarker}
+      editMarker={this.props.editMarker}
+    />
+  );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 30,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    width: '100%'
-  },
-});
 
 const mapStateToProps = state => {
   return {
@@ -61,9 +32,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getMarkers: () => {
-      dispatch(getAllMarkers())
-    }
+    getMarkers: () => { dispatch(getAllMarkers()) },
+    addMarker: (coordinate) => { dispatch(addMarker(coordinate)) },
+    deleteMarker: (markerId) => { dispatch(deleteMarker(markerId)) },
+    editMarker: (newCoordinate, marker) => { dispatch(editMarker({newCoordinate, marker})) },
   }
 }
 
