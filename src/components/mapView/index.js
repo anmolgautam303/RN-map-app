@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, FlatList, Dimensions, TouchableOpacity, Alert } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
-import styles from './styles';
+import { styles } from './styles';
 
 const {height, width} = Dimensions.get('window');
 const LATITUDE_DELTA = 3;
@@ -46,27 +46,27 @@ export default class MapViewComponent extends Component {
 
   renderItem = ({ item, index }) =>  {
       return (
-        <View style={{ background: 'red', paddingLeft: 30 }}>
+        <View style={styles.markerListContainer}>
           <Text
-            style={{ fontSize: 22, marginBottom: 3, color: 'blue' }}
+            style={styles.markerLocation}
           >
             { item.Name }
           </Text>
-          <Text style={{ marginBottom: 3 }}>{ item.Name }</Text>
-          <Text style={{ marginBottom: 3 }}>latitude: { item.Latitude }</Text>
-          <Text style={{ marginBottom: 5 }}>longitude: { item.Longitude }</Text>
+          <Text style={styles.markerInfoText}>{ item.Name }</Text>
+          <Text style={styles.markerInfoText}>latitude: { item.Latitude }</Text>
+          <Text style={styles.markerInfoText}>longitude: { item.Longitude }</Text>
 
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
             <TouchableOpacity
-              style={{ borderWidth: 1, borderRadius: 3, padding: 5, flex: 1, justifyContent: 'center', alignItems: 'center' }}
+              style={styles.editButton}
               onPress = {() => {
                 _mapView.animateCamera({latitude: item.Latitude, longitude: item.Longitude}, 1000)}}
             >
               <Text>Edit</Text>
             </TouchableOpacity>
-            <Text style={{ paddingHorizontal: 10 }}>or</Text>
+            <Text style={styles.orText}>or</Text>
             <TouchableOpacity
-              style={{ borderWidth: 1, borderRadius: 3, padding: 5, flex: 1, justifyContent: 'center', alignItems: 'center' }}
+              style={styles.deleteButton}
               onPress={() => this.deleteMarker(item)}
             >
               <Text testID={`button-delete-${index}`}>Delete</Text>
@@ -94,7 +94,7 @@ export default class MapViewComponent extends Component {
 
     return(
       <TouchableOpacity
-        style={{ margin: 10, borderWidth: 1, borderRadius: 3, padding: 5, justifyContent: 'center', alignItems: 'center', width: 200, backgroundColor: addMarkerBool? 'lightgreen' : null }}
+        style={[styles.addMarkerButton, { backgroundColor: addMarkerBool? 'lightgreen' : null }]}
         onPress={() => this.toggleAddMarkerBool(addMarkerBool? false : true)}
         testID="button-add-marker"
       >
@@ -109,10 +109,7 @@ export default class MapViewComponent extends Component {
     return(
       <MapView
         ref = {(mapView) => { _mapView = mapView; }}
-        style={{
-          width,
-          height: height/1.4
-        }}
+        style={styles.mapView}
         initialRegion={initialRegion}
         onPress={(e) => {
           addMarkerBool && this.props.addMarker(e.nativeEvent.coordinate)
@@ -133,10 +130,10 @@ export default class MapViewComponent extends Component {
 
   render() {
     return (
-      <View style={ styles.container }>
+      <View style={styles.container}>
         { this.renderMap() }
         { this.renderAddMArkerButton() }
-        <View style={ styles.container }>
+        <View style={styles.container}>
           { this.markersOutput() }
         </View>
       </View>
