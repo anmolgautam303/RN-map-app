@@ -1,4 +1,4 @@
-# Medwing-react-native (RN + Redux + Saga)
+# RN-map-app (RN + Redux + Saga)
 
 # To run the project:
 git clone https://github.com/anmolgautam303/Medwing-react-native.git  
